@@ -12,6 +12,13 @@ target_include_directories(world PUBLIC
     ${PROJECT_SOURCE_DIR}/include
 )
 
+set_target_properties(
+    world
+    PROPERTIES
+    VERSION "${CMAKE_PROJECT_VERSION}"
+    SOVERSION "${CMAKE_PROJECT_VERSION_MAJOR}"
+)
+
 # Specify installation directories
 install(TARGETS world
     LIBRARY DESTINATION lib
