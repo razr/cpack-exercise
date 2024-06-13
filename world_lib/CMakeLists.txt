@@ -8,5 +8,15 @@ add_library(world SHARED)
 target_sources(world PRIVATE src/world.c)
 
 # Specify the include directories
-target_include_directories(world PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(world PUBLIC
+    ${PROJECT_SOURCE_DIR}/include
+)
 
+# Specify installation directories
+install(TARGETS world
+    LIBRARY DESTINATION lib
+)
+
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
+    DESTINATION include
+)
