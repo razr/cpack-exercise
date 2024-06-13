@@ -19,9 +19,19 @@ set_target_properties(
     SOVERSION "${CMAKE_PROJECT_VERSION_MAJOR}"
 )
 
+add_library(world_static STATIC)
+target_sources(world_static PRIVATE src/world.c)
+target_include_directories(world_static PUBLIC ${PROJECT_SOURCE_DIR}/include)
+set_target_properties(world_static PROPERTIES OUTPUT_NAME world)
+set_target_properties(world_static PROPERTIES LINKER_LANGUAGE C)
+
 # Specify installation directories
 install(TARGETS world
-    LIBRARY DESTINATION lib
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+
+install(TARGETS world_static
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
