@@ -28,12 +28,15 @@ set_target_properties(world_static PROPERTIES LINKER_LANGUAGE C)
 # Specify installation directories
 install(TARGETS world
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    COMPONENT world_runtime
 )
 
 install(TARGETS world_static
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    COMPONENT world_runtime
 )
 
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
     DESTINATION include
+    COMPONENT world_development
 )
