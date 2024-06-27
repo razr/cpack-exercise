@@ -27,16 +27,20 @@ set_target_properties(world_static PROPERTIES LINKER_LANGUAGE C)
 
 # Specify installation directories
 install(TARGETS world
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    COMPONENT world_runtime
+    LIBRARY
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    COMPONENT Runtime
+    NAMELINK_COMPONENT Development
 )
 
 install(TARGETS world_static
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    COMPONENT world_runtime
+    COMPONENT Development
 )
 
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
     DESTINATION include
-    COMPONENT world_development
+    COMPONENT Development
 )
+
+include(cmake/packaging/CPackConfig.cmake)
