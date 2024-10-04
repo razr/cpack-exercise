@@ -11,5 +11,5 @@ cpack -G DEB
 cpack -G DEB -D CPACK_COMPONENTS_ALL=Runtime
 cpack -G DEB -D CPACK_COMPONENTS_ALL=Development
 find . -name "*.deb" -exec sh -c 'echo "Contents of {}:"; dpkg -c {}' \;
-DESTDIR=$HOME/tmp cmake -DCOMPONENT=Runtime -P build/cmake_install.cmake
+DESTDIR=$HOME/tmp cmake -DCOMPONENT=Runtime -P cmake_install.cmake
 ```
