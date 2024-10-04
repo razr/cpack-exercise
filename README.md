@@ -2,6 +2,8 @@
 
 There are two deb packages built: Runtime and Development
 
+## CMake
+
 ```bash
 $ mkdir world/build && cd world/build
 $ cmake ..
@@ -43,6 +45,8 @@ $ ./hello
 Hello, World!
 ```
 
+## CPack
+
 ```bash
 $ cpack -G DEB
 CPack: Create package using DEB
@@ -78,9 +82,31 @@ lrwxrwxrwx root/root         0 2024-10-04 23:15 ./usr/lib/libworld.so.1 -> libwo
 -rw-r--r-- root/root     15208 2024-10-04 23:01 ./usr/lib/libworld.so.1.0.0
 ```
 
+## Debian
+
 ```bash
-cpack -G DEB -D CPACK_COMPONENTS_ALL=Runtime
-cpack -G DEB -D CPACK_COMPONENTS_ALL=Development
-find . -name "*.deb" -exec sh -c 'echo "Contents of {}:"; dpkg -c {}' \;
-DESTDIR=$HOME/tmp cmake -DCOMPONENT=Runtime -P cmake_install.cmake
+$ dh_make --createorig -s -p world_1.0.0
+
+# uncomment CMake rules
+vi debian/rules
+override_dh_auto_configure:
+        dh_auto_configure -- \
+        -DCMAKE_LIBRARY_PATH=$(DEB_HOST_MULTIARCH)
+
+$ dpkg-buildpackage -S
+
+$ cp ../world_1.0.0-1.dsc $HOME/tm
+$ cd $HOME/tmp
+$ dpkg-source -x world_1.0.0-1.dsc
+
+$ dpkg-buildpackage -us -uc
+$ ls obj-x86_64-linux-gnu/
+```
+
+```bash
+$ dpkg-buildpackage -b
+$ cpack -G DEB -D CPACK_COMPONENTS_ALL=Runtime
+$ cpack -G DEB -D CPACK_COMPONENTS_ALL=Development
+$ find . -name "*.deb" -exec sh -c 'echo "Contents of {}:"; dpkg -c {}' \;
+$ DESTDIR=$HOME/tmp cmake -DCOMPONENT=Runtime -P cmake_install.cmake
 ```
