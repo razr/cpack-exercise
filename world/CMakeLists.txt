@@ -40,6 +40,7 @@ set_target_properties(world_static PROPERTIES LINKER_LANGUAGE C)
 
 # Specify installation directories
 install(TARGETS world
+    EXPORT WorldLibraryTargets
     LIBRARY
     DESTINATION ${CMAKE_INSTALL_LIBDIR}
     COMPONENT Runtime
@@ -47,6 +48,7 @@ install(TARGETS world
 )
 
 install(TARGETS world_static
+    EXPORT WorldLibraryTargets
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     COMPONENT Development
 )
@@ -54,14 +56,6 @@ install(TARGETS world_static
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
     DESTINATION include
     COMPONENT Development
-)
-
-# Export and install Config files
-install(TARGETS world_static
-    EXPORT WorldLibraryTargets
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
 install(EXPORT WorldLibraryTargets
