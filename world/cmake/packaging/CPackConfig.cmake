@@ -4,8 +4,8 @@ include(InstallRequiredSystemLibraries)
 set(CPACK_PACKAGE_NAME "world")
 set(CPACK_PACKAGE_VERSION "1.0.0")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "World Library")
-set(CPACK_PACKAGE_VENDOR "Your Name")
-set(CPACK_PACKAGE_CONTACT "your.email@example.com")
+set(CPACK_PACKAGE_VENDOR "Andrei Kholodnyi")
+set(CPACK_PACKAGE_CONTACT "Andrei.Kholodnyi@gmail.com")
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
 
 
@@ -13,7 +13,7 @@ set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CM
 set(CPACK_GENERATOR "DEB")
 
 # Set Debian package specific settings
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "your.email@example.com") # Required
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Andrei.Kholodnyi@gmail.com") # Required
 set(CPACK_DEBIAN_PACKAGE_SECTION "libs")
 set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
 set(CPACK_DEBIAN_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION}")

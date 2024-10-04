@@ -1,6 +1,6 @@
 #include "world.h"
 
-const char *world() {
+const char *world(void) {
     return "World!";
 }
 
