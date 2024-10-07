@@ -95,7 +95,7 @@ override_dh_auto_configure:
 
 $ dpkg-buildpackage -S
 
-$ cp ../world_1.0.0-1.dsc $HOME/tm
+$ cp ../world_1.0.0-1.dsc $HOME/tmp
 $ cd $HOME/tmp
 $ dpkg-source -x world_1.0.0-1.dsc
 
