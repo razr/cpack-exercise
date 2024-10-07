@@ -1,15 +1,24 @@
 # cpack-exercise
 
-There are two deb packages built: Runtime and Development
+Two `.deb` packages for the library are built for VxWorks 24.03 using `CPack`: one for `Runtime` and one for `Development`
 
 ## CMake
 
+### Library
+
 ```bash
+$ ~/WindRiver-24.03/wrenv.linux
+$ export WIND_CC_SYSROOT=$WIND_HOME/workspace/rpi_4_vsb
 $ mkdir world/build && cd world/build
-$ cmake ..
+
+$ cmake .. -DCMAKE_TOOLCHAIN_FILE=$WIND_CC_SYSROOT/mk/toolchain.cmake
 $ cmake --build .
+$ file libworld.so.1.0.0
+libworld.so.1.0.0: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, not stripped
+
 $ make list_install_components
 Available install components are: "Development" "Runtime"
+
 $ DESTDIR=$HOME/tmp make install
 [ 50%] Built target world
 [100%] Built target world_static
@@ -26,6 +35,10 @@ Install the project...
 -- Up-to-date: /home/akholodn/tmp/usr/local/lib/cmake/WorldLibrary/WorldLibraryConfig.cmake
 -- Up-to-date: /home/akholodn/tmp/usr/local/lib/cmake/WorldLibrary/WorldLibraryConfigVersion.cmake
 ```
+
+### Binary
+
+Binary uses `find_package(WorldLibrary)` to find it
 
 ```bash
 $ mkdir hello/build && cd hello/build
@@ -58,28 +71,32 @@ CPack: -   Install component: Runtime
 CPack: Create package
 CPackDeb: - Generating dependency list
 -- CPACK_DEBIAN_PACKAGE_DEPENDS not set, the package will have no dependencies.
-CPack: - package: world-1.0.0-Linux-x86_64-Development.deb generated.
-CPack: - package: world-1.0.0-Linux-x86_64-Runtime.deb generated.
+CPack: - package: /home/akholodn/github/razr/cpack-exercise/world/build/world-1.0.0-VxWorks-aarch64-Development.deb generated.
+CPack: - package: /home/akholodn/github/razr/cpack-exercise/world/build/world-1.0.0-VxWorks-aarch64-Runtime.deb generated.
 
-$ dpkg -c world-1.0.0-Linux-x86_64-Development.deb
-drwxrwxr-x root/root         0 2024-10-04 23:15 ./usr/
-drwxr-xr-x root/root         0 2024-10-04 23:15 ./usr/include/
+
+# Development Package content
+$ dpkg -c world-1.0.0-VxWorks-aarch64-Development.deb 
+drwxrwxr-x root/root         0 2024-10-07 12:15 ./usr/
+drwxr-xr-x root/root         0 2024-10-07 12:15 ./usr/include/
 -rw-r--r-- root/root       153 2024-10-04 16:24 ./usr/include/world.h
-drwxrwxr-x root/root         0 2024-10-04 23:15 ./usr/lib/
-drwxrwxr-x root/root         0 2024-10-04 23:15 ./usr/lib/cmake/
-drwxrwxr-x root/root         0 2024-10-04 23:15 ./usr/lib/cmake/WorldLibrary/
--rw-r--r-- root/root       949 2024-10-04 23:01 ./usr/lib/cmake/WorldLibrary/WorldLibraryConfig.cmake
--rw-r--r-- root/root      1977 2024-10-04 23:01 ./usr/lib/cmake/WorldLibrary/WorldLibraryConfigVersion.cmake
--rw-r--r-- root/root      1369 2024-10-04 23:01 ./usr/lib/cmake/WorldLibrary/WorldLibraryTargets-release.cmake
--rw-r--r-- root/root      3543 2024-10-04 23:01 ./usr/lib/cmake/WorldLibrary/WorldLibraryTargets.cmake
--rw-r--r-- root/root      1566 2024-10-04 23:01 ./usr/lib/libworld.a
-lrwxrwxrwx root/root         0 2024-10-04 23:15 ./usr/lib/libworld.so -> libworld.so.1
+drwxrwxr-x root/root         0 2024-10-07 12:15 ./usr/lib/
+drwxrwxr-x root/root         0 2024-10-07 12:15 ./usr/lib/cmake/
+drwxrwxr-x root/root         0 2024-10-07 12:15 ./usr/lib/cmake/WorldLibrary/
+-rw-r--r-- root/root       949 2024-10-07 12:12 ./usr/lib/cmake/WorldLibrary/WorldLibraryConfig.cmake
+-rw-r--r-- root/root      1861 2024-10-07 12:12 ./usr/lib/cmake/WorldLibrary/WorldLibraryConfigVersion.cmake
+-rw-r--r-- root/root      1393 2024-10-07 12:12 ./usr/lib/cmake/WorldLibrary/WorldLibraryTargets-release.cmake
+-rw-r--r-- root/root      4183 2024-10-07 12:12 ./usr/lib/cmake/WorldLibrary/WorldLibraryTargets.cmake
+-rw-r--r-- root/root      1342 2024-10-07 12:12 ./usr/lib/libworld.a
+lrwxrwxrwx root/root         0 2024-10-07 12:15 ./usr/lib/libworld.so -> libworld.so.1
 
-$ dpkg -c world-1.0.0-Linux-x86_64-Runtime.deb
-drwxrwxr-x root/root         0 2024-10-04 23:15 ./usr/
-drwxrwxr-x root/root         0 2024-10-04 23:15 ./usr/lib/
-lrwxrwxrwx root/root         0 2024-10-04 23:15 ./usr/lib/libworld.so.1 -> libworld.so.1.0.0
--rw-r--r-- root/root     15208 2024-10-04 23:01 ./usr/lib/libworld.so.1.0.0
+
+# Runtime Package content
+$ dpkg -c world-1.0.0-VxWorks-aarch64-Runtime.deb 
+drwxrwxr-x root/root         0 2024-10-07 12:15 ./usr/
+drwxrwxr-x root/root         0 2024-10-07 12:15 ./usr/lib/
+lrwxrwxrwx root/root         0 2024-10-07 12:15 ./usr/lib/libworld.so.1 -> libworld.so.1.0.0
+-rwxr-xr-x root/root     70560 2024-10-07 12:12 ./usr/lib/libworld.so.1.0.0
 ```
 
 ## Debian
@@ -110,3 +127,4 @@ $ cpack -G DEB -D CPACK_COMPONENTS_ALL=Development
 $ find . -name "*.deb" -exec sh -c 'echo "Contents of {}:"; dpkg -c {}' \;
 $ DESTDIR=$HOME/tmp cmake -DCOMPONENT=Runtime -P cmake_install.cmake
 ```
+
